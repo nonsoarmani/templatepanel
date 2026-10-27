@@ -1,0 +1,70 @@
+---
+import { getCollection } from 'astro:content';
+import Layout from '../layouts/Layout.astro';
+
+export async function getStaticPaths() {
+  const complianceEntries = await getCollection('compliance');
+  return complianceEntries.map(entry => ({
+    params: { slug: entry.slug }, props: { entry },
+  }));
+}
+
+const { entry } = Astro.props;
+const { Content } = await entry.render();
+---
+
+<Layout title={entry.data.metaTitle} description={entry.data.metaDescription}>
+  <main style="max-width: 800px; margin: 40px auto; padding: 0 20px; font-family: sans-serif; color: #2d3748; line-height: 1.6;">
+    
+    <!-- Breadcrumbs -->
+    <nav style="font-size: 0.9rem; color: #718096; margin-bottom: 20px;">
+      <a href="/" style="color: #3182ce; text-decoration: none;">Directory Home</a> › {entry.data.regulation} › {entry.data.articleNumber}
+    </nav>
+
+    <!-- Header Block -->
+    <header style="border-bottom: 2px solid #e2e8f0; padding-bottom: 20px; margin-bottom: 30px;">
+      <span style="background: #edf2f7; color: #4a5568; padding: 4px 8px; border-radius: 4px; font-size: 0.85rem; font-weight: bold; text-transform: uppercase;">
+        {entry.data.regulation} Compliance Portal
+      </span>
+      <h1 style="font-size: 2.2rem; color: #1a202c; margin: 15px 0 10px 0;">{entry.data.title}</h1>
+      <p style="font-size: 1.1rem; color: #4a5568; margin: 0;">Target Audience: <strong>{entry.data.targetAudience}</strong> | Class: <strong>{entry.data.riskLevel}</strong></p>
+    </header>
+
+    <!-- Content Split Layout -->
+    <div style="display: grid; grid-template-columns: 1fr; gap: 30px;">
+      
+      <!-- Regulatory Information -->
+      <section style="background: #ffffff; padding: 10px 0;">
+        <Content />
+      </section>
+
+      <!-- HIGH TICKET CONVERSION BOX -->
+      <section style="background: linear-gradient(135deg, #1a202c 0%, #2d3748 100%); color: white; padding: 30px; border-radius: 12px; box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1); margin-top: 40px;">
+        <h3 style="margin-top: 0; font-size: 1.5rem; color: #f7fafc;">Download the Enterprise Deployment Kit</h3>
+        <p style="color: #cbd5e0;">Don't spend $10,000 on legal consultation bills. Get the complete blueprint, audit frameworks, and ready-made markdown checklists configured to satisfy {entry.data.articleNumber} guidelines.</p>
+        
+        <div style="background: rgba(255,255,255,0.1); padding: 15px; border-radius: 6px; margin: 20px 0;">
+          <p style="margin: 0; font-size: 0.9rem; color: #a0aec0;">Corporate Single-License Price:</p>
+          <p style="margin: 5px 0 0 0; font-size: 2rem; font-weight: bold; color: #63b3ed;">{entry.data.kitPrice} <span style="font-size: 1rem; color: #cbd5e0; font-weight: normal;">USD</span></p>
+        </div>
+
+        <!-- High-Ticket Lead Gen Hook -->
+        <div style="margin-top: 25px;">
+          <h4 style="color: #fff; margin-bottom: 5px;">Need Implementation Advisory?</h4>
+          <p style="font-size: 0.9rem; color: #cbd5e0; margin: 0 0 15px 0;">If your organization requires a certified auditor or legal-tech counsel to verify deployment, request custom intake match-making below.</p>
+          
+          <!-- Simple Intake CTA Links -->
+          <div style="display: flex; flex-direction: column; gap: 10px;">
+            <a href="https://tally.so" target="_blank" style="display: block; text-align: center; background: #3182ce; color: white; padding: 12px; border-radius: 6px; text-decoration: none; font-weight: bold; transition: background 0.2s;">
+              📥 Request Professional Compliance Matchmaking
+            </a>
+            <a href="https://tally.so" target="_blank" style="display: block; text-align: center; background: transparent; border: 1px solid #cbd5e0; color: white; padding: 12px; border-radius: 6px; text-decoration: none; font-size: 0.9rem;">
+              Download Free Single-Page Compliance Checklist (PDF)
+            </a>
+          </div>
+        </div>
+      </section>
+
+    </div>
+  </main>
+</Layout>

@@ -1,11 +1,27 @@
 ---
-import Welcome from '../components/Welcome.astro';
+import { getCollection } from 'astro:content';
 import Layout from '../layouts/Layout.astro';
 
-// Welcome to Astro! Wondering what to do next? Check out the Astro documentation at https://docs.astro.build
-// Don't want to use any of this? Delete everything in this file, the `assets`, `components`, and `layouts` directories, and start fresh.
+const allRegulations = await getCollection('compliance');
 ---
 
-<Layout>
-	<Welcome />
+<Layout title="Corporate AI Compliance & Policy Framework Directory" description="Access programmatic compliance frameworks for global AI governance laws including EU AI Act and NIST frameworks.">
+	<main style="max-width: 900px; margin: 60px auto; padding: 0 20px; font-family: sans-serif;">
+		<h1 style="font-size: 2.5rem; color: #1a202c; text-align: center;">TemplatePanel Corporate Directory</h1>
+		<p style="text-align: center; color: #4a5568; font-size: 1.2rem; margin-bottom: 50px;">Select a global regulatory body below to access audit-ready template kits.</p>
+		
+		<div style="background: white; border-radius: 8px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1); padding: 30px;">
+			<h2 style="margin-top: 0; border-bottom: 2px solid #edf2f7; padding-bottom: 10px;">Available Compliance Layouts</h2>
+			<ul style="list-style: none; padding: 0;">
+				{allRegulations.map(item => (
+					<li style="padding: 15px 0; border-bottom: 1px solid #edf2f7;">
+						<a href={`/${item.slug}/`} style="font-size: 1.2rem; color: #3182ce; text-decoration: none; font-weight: bold;">
+							{item.data.regulation} ({item.data.articleNumber}) — {item.data.title}
+						</a>
+						<p style="margin: 5px 0 0 0; color: #718096; font-size: 0.95rem;">Target Audience: {item.data.targetAudience}</p>
+					</li>
+				))}
+			</ul>
+		</div>
+	</main>
 </Layout>
