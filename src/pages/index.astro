@@ -15,7 +15,8 @@ const allRegulations = await getCollection('compliance');
 			<ul style="list-style: none; padding: 0;">
 				{allRegulations.map(item => (
 					<li style="padding: 15px 0; border-bottom: 1px solid #edf2f7;">
-						<a href={`/${item.slug}/`} style="font-size: 1.2rem; color: #3182ce; text-decoration: none; font-weight: bold;">
+						{/* Changed item.slug to item.id to match Astro v6 rendering engines */}
+						<a href={`/${item.id}/`} style="font-size: 1.2rem; color: #3182ce; text-decoration: none; font-weight: bold;">
 							{item.data.regulation} ({item.data.articleNumber}) — {item.data.title}
 						</a>
 						<p style="margin: 5px 0 0 0; color: #718096; font-size: 0.95rem;">Target Audience: {item.data.targetAudience}</p>
