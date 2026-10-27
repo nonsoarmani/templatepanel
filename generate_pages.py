@@ -1,68 +1,90 @@
 import os
 
-# Define the data grid for your programmatic pages
-compliance_database = [
-    {
-        "id": "eu-ai-act-article-53",
-        "title": "EU AI Act Article 53: General-Purpose AI Model Provider Template",
-        "metaTitle": "EU AI Act Article 53 Compliance Template | GPAI Framework",
-        "metaDescription": "Download audit-ready templates to satisfy EU AI Act Article 53 requirements for General-Purpose AI (GPAI) models. Avoid compliance shutdown.",
-        "regulation": "EU AI Act",
-        "articleNumber": "Article 53",
-        "targetAudience": "AI Model Developers, LLM Providers, Data Engineers",
-        "riskLevel": "Systemic Risk / Model Mandate",
-        "price": "$1,495",
-        "content": "## Regulatory Requirement Summary\\nArticle 53 mandates that providers of general-purpose AI models must draw up and keep up-to-date technical documentation of the model, including its training and testing process, and the results of its evaluation.\\n\\n## Corporate Liability Risks\\nFailing to produce detailed architecture blueprints, training data source logs, and energy efficiency metrics can halt model deployment in the EU or result in heavy global turnover operational fines."
-    },
-    {
-        "id": "nist-ai-rmf-govern-1",
-        "title": "NIST AI RMF Govern 1.1: Corporate AI Governance Policies Template",
-        "metaTitle": "NIST AI RMF Govern 1.1 Policy Template | Free Checklist",
-        "metaDescription": "Deploy board-ready AI governance policies built specifically around the NIST AI Risk Management Framework Govern 1.1 standard controls.",
-        "regulation": "NIST AI RMF",
-        "articleNumber": "Govern 1.1",
-        "targetAudience": "Enterprise Risk Officers, Chief Legal Officers, CIOs",
-        "riskLevel": "Organizational Governance Standard",
-        "price": "$899",
-        "content": "## Regulatory Requirement Summary\\nNIST AI RMF Govern 1.1 requires that organizational policies, processes, and procedures regarding AI risks be clearly documented, communicated, and regularly updated to reflect institutional risk tolerances.\\n\\n## Corporate Liability Risks\\nOperating without documented AI risk management protocols invites profound corporate liability, data management failures, and severe investor-facing disclosure penalties."
-    },
-    {
-        "id": "iso-42001-clause-6",
-        "title": "ISO/IEC 42001 Clause 6: AI Management System Planning Template",
-        "metaTitle": "ISO 42001 Clause 6 Planning Template | Enterprise Blueprint",
-        "metaDescription": "Streamline your ISO/IEC 42001 Clause 6 AI management system certification audit using our ready-made tracking frameworks.",
-        "regulation": "ISO/IEC 42001",
-        "articleNumber": "Clause 6",
-        "targetAudience": "Chief Information Officers, Quality Management Leads, IT Auditors",
-        "riskLevel": "International Certification Standard",
-        "price": "$1,250",
-        "content": "## Regulatory Requirement Summary\\nClause 6 establishes strict planning mechanics for the AI Management System (AIMS). Organizations must define specific objectives to address AI risks and build detailed systemic remediation schedules.\\n\\n## Corporate Liability Risks\\nFailing an initial ISO 42001 audit directly locks tech enterprises out of lucrative government contracts and international enterprise SaaS sales pipelines."
-    }
-]
-
-# Output folder path
 output_dir = "./src/content/compliance/"
+os.makedirs(output_dir, exist_ok=True)
 
-# Automate file creation loop
-for page in compliance_database:
-    file_name = f"{page['id']}.md"
-    file_path = os.path.join(output_dir, file_name)
-    
-    markdown_template = f"""---
-title: "{page['title']}"
-metaTitle: "{page['metaTitle']}"
-metaDescription: "{page['metaDescription']}"
-regulation: "{page['regulation']}"
-articleNumber: "{page['articleNumber']}"
-targetAudience: "{page['targetAudience']}"
-riskLevel: "{page['riskLevel']}"
-kitPrice: "{page['price']}"
+# Master Data Storage Arrays for Programmatic Expansion Loop
+regulations = {
+    "eu-ai-act": {
+        "name": "EU AI Act",
+        "prefix": "Article",
+        "total_items": 113, # Covers the entire statutory length of the act
+        "target": "SaaS Founders, CTOs, Enterprise General Counsels",
+        "risk": "High-Risk Statutory Corporate Mandate",
+        "price": "$995",
+        "summary": "This specific statutory clause establishes strict operational governance, risk limits, and structural conformity assessment criteria for systems deploying across European markets.",
+        "risk_desc": "Operating an automated engine or digital service inside EU borders without active verification under this section risks administrative financial penalties scaling up to €15,000,000 or 3% of global turnover."
+    },
+    "nist-ai-rmf": {
+        "name": "NIST AI RMF",
+        "prefix": "Sub-Category Control",
+        "total_items": 45, # Core metrics covering Govern, Map, Measure, Manage functions
+        "target": "Chief Information Officers, Risk Management Teams, Tech Architects",
+        "risk": "National Federal Security Control Standard",
+        "price": "$899",
+        "summary": "This framework sub-control defines necessary evaluation procedures to map, analyze, track, and document institutional AI software security profiles and operational threat landscapes.",
+        "risk_desc": "Operating internal models without explicit mapping against these national security guidelines invites catastrophic operational data liability exposure and critical supply-chain validation failure."
+    },
+    "iso-42001": {
+        "name": "ISO/IEC 42001",
+        "prefix": "Clause Control",
+        "total_items": 38, # Standard Annex metrics and architectural policy conditions
+        "target": "Chief Information Security Officers, IT Lead Auditors, VP of Engineering",
+        "risk": "International Corporate Certification Standard",
+        "price": "$1,495",
+        "summary": "This international protocol standard specifies data management system requirements, fairness reviews, and continuous oversight routines necessary for an organizational AIMS certification.",
+        "risk_desc": "Failing an independent corporate audit under this clause locks scaling enterprise software platforms out of lucrative government contracts and international enterprise procurement loops."
+    },
+    "state-ai-laws": {
+        "name": "State Statutory AI Compliance",
+        "prefix": "Section",
+        "total_items": 25, # High-intent metrics matching US state variations (CA, CO, UT, TX)
+        "target": "Corporate Defense Lawyers, FinTech Founders, HR Tech Compliance Leads",
+        "risk": "State-Level Civil Enforcement Mandate",
+        "price": "$1,150",
+        "summary": "This localized legal section institutes operational consumer protections, anti-discrimination reporting rules, and rigorous dataset transparency disclosure practices.",
+        "risk_desc": "Violations invoke direct civil investigation and corporate injunction penalties from State Attorneys General, presenting severe business disruptions and localized payment handling bans."
+    }
+}
+
+generated_count = 0
+
+# Core Automation Loop: Multiplies data structures to generate 200+ distinct variations instantly
+for key, data in regulations.items():
+    for num in range(1, data["total_items"] + 1):
+        item_id = f"{key}-{data['prefix'].lower()}-{num}"
+        title = f"{data['name']} {data['prefix']} {num}: Corporate Deployment & Compliance Verification Framework"
+        meta_title = f"{data['name']} {data['prefix']} {num} Template | Enterprise Audit Kit"
+        meta_description = f"Download ready-to-deploy enterprise template files and internal assessment logs configured to satisfy {data['name']} {data['prefix']} {num} requirements."
+        
+        markdown_template = f"""---
+title: "{title}"
+metaTitle: "{meta_title}"
+metaDescription: "{meta_description}"
+regulation: "{data['name']}"
+articleNumber: "{data['prefix']} {num}"
+targetAudience: "{data['target']}"
+riskLevel: "{data['risk']}"
+kitPrice: "{data['price']}"
 ---
 
-{page['content']}
-"""
-    
-    with open(file_path, "w", encoding="utf-8") as f:
-        f.write(markdown_template)
+## Regulatory Requirement Summary
+{data['summary']}
 
-print(f"✅ Programmatic Generation Finished! {len(compliance_database)} pages successfully created.")
+## Corporate Liability Risks
+{data['risk_desc']}
+
+## Included in this Ready-to-Deploy Template Kit:
+* **Section-Specific Compliance SOP Blueprint:** Clear step-by-step workflow mapping logic to hit targets seamlessly.
+* **Internal Audit Tracking Worksheet:** Formatted data structure parameters (Excel / Notion compatible) to compile execution proof.
+* **Corporate Policy & Statement Swipe Files:** Board-ready statement templates for executive-level validation or legal disclosure requirements.
+"""
+        file_name = f"{item_id}.md"
+        file_path = os.path.join(output_dir, file_name)
+        
+        with open(file_path, "w", encoding="utf-8") as f:
+            f.write(markdown_template)
+            
+        generated_count += 1
+
+print(f"🚀 Matrix Expansion Success! Generated exactly {generated_count} highly targeted, programmatic index layouts.")
