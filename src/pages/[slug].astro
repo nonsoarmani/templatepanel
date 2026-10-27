@@ -1,16 +1,16 @@
 ---
-import { getCollection } from 'astro:content';
+import { getCollection, render } from 'astro:content'; // Updated for Astro v6
 import Layout from '../layouts/Layout.astro';
 
 export async function getStaticPaths() {
   const complianceEntries = await getCollection('compliance');
   return complianceEntries.map(entry => ({
-    params: { slug: entry.slug }, props: { entry },
+    params: { slug: entry.id }, props: { entry }, // Changed entry.slug to entry.id for Astro v6
   }));
 }
 
 const { entry } = Astro.props;
-const { Content } = await entry.render();
+const { Content } = await render(entry); // Updated rendering engine function for Astro v6
 ---
 
 <Layout title={entry.data.metaTitle} description={entry.data.metaDescription}>
@@ -30,7 +30,7 @@ const { Content } = await entry.render();
       <p style="font-size: 1.1rem; color: #4a5568; margin: 0;">Target Audience: <strong>{entry.data.targetAudience}</strong> | Class: <strong>{entry.data.riskLevel}</strong></p>
     </header>
 
-    <!-- Content Split Layout -->
+    <!-- Content Layout -->
     <div style="display: grid; grid-template-columns: 1fr; gap: 30px;">
       
       <!-- Regulatory Information -->
